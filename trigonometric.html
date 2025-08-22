@@ -3,133 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>三角関数 右三角形ツール</title>
+  <title>三角関数 右三角形ツール（完全版）</title>
   <style>
     :root {
-      --bg: #0f172a; /* slate-900 */
-      --card: #111827cc; /* gray-900 with alpha */
-      --text: #e5e7eb; /* gray-200 */
-      --muted: #9ca3af; /* gray-400 */
-      --accent: #60a5fa; /* blue-400 */
-      --ok: #34d399; /* emerald-400 */
-      --warn: #fbbf24; /* amber-400 */
-      --err: #f87171; /* red-400 */
-      --border: #1f2937; /* gray-800 */
+      --bg: #0f172a;
+      --card: #0b1220;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --border: #1f2937;
+      --ok: #34d399; --warn:#fbbf24; --err:#f87171;
     }
     html, body { height: 100%; }
-    body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif;
-      background: radial-gradient(1200px 600px at 10% -10%, #1e293b, transparent),
-                  radial-gradient(800px 500px at 100% 10%, #0b1324, transparent),
-                  var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    .container { max-width: 980px; margin: 32px auto; padding: 0 16px; }
-    h1 { font-size: 1.8rem; margin: 0 0 12px; }
-    p.lead { color: var(--muted); margin-top: 0; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-    .card {
-      background: linear-gradient(180deg, #0b1220cc, #0b1220aa);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      backdrop-filter: blur(6px);
-    }
-    .card h2 { font-size: 1.2rem; margin: 0 0 12px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .field { display: flex; flex-direction: column; gap: 6px; }
-    label { font-size: .9rem; color: var(--muted); }
-    input[type="number"], select { 
-      background: #0b1220; color: var(--text); border: 1px solid #1f2937; border-radius: 10px; padding: 10px 12px; font-size: 1rem; outline: none;
-    }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif; background: var(--bg); color: var(--text); }
+    .container { max-width: 980px; margin: 28px auto; padding: 0 16px; }
+    h1 { font-size: 1.8rem; margin: 0 0 8px; }
+    p.lead { color: var(--muted); margin: 0 0 16px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:16px; }
+    .card { background: linear-gradient(180deg, #0b1220, #0b1220cc); border:1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
+    .card h2 { font-size:1.15rem; margin:0 0 10px; }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { display:flex; flex-direction:column; gap:6px; }
+    label { font-size:.9rem; color: var(--muted); }
+    input[type="number"], select { background:#0b1220; color:var(--text); border:1px solid #1f2937; border-radius:10px; padding:10px 12px; font-size:1rem; outline:none; }
     input[type="number"]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(96,165,250,.25); }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    button { 
-      background: linear-gradient(180deg, #2563eb, #1d4ed8); border: none; color: white; padding: 10px 14px; border-radius: 10px; font-weight: 600; cursor: pointer;
-      transition: transform .05s ease, box-shadow .2s ease; box-shadow: 0 8px 18px rgba(30, 64, 175, .35);
-    }
-    button.secondary { background: #0b1220; border: 1px solid #1f2937; color: var(--text); box-shadow: none; }
-    button:active { transform: translateY(1px); }
-    .result { background: #0b1220; border: 1px dashed #1f2937; border-radius: 12px; padding: 12px; }
-    .result h3 { margin: 0 0 10px; font-size: 1rem; color: var(--accent); }
-    .kv { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; }
-    .kv .k { color: var(--muted); }
-    .tag { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; background: #111827; border: 1px solid #1f2937; border-radius: 999px; padding: 2px 8px; }
-    .tag.ok { border-color: #064e3b; color: var(--ok); }
-    .tag.warn { border-color: #78350f; color: var(--warn); }
-    .tag.err { border-color: #7f1d1d; color: var(--err); }
-    .help { font-size: .85rem; color: var(--muted); }
-    .footer { margin-top: 22px; color: var(--muted); font-size: .9rem; }
-    .small { font-size: .85rem; color: var(--muted) }
-    .flex { display:flex; gap:10px; align-items: center; flex-wrap: wrap; }
-    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; }
+    button { background: linear-gradient(180deg,#2563eb,#1d4ed8); border:none; color:#fff; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer; box-shadow: 0 8px 18px rgba(30,64,175,.35); }
+    button.secondary { background:#0b1220; border:1px solid #1f2937; box-shadow:none; }
+    .result { background:#0b1220; border:1px dashed #1f2937; border-radius:12px; padding:12px; margin-top:12px; display:none; }
+    .result h3 { margin:0 0 8px; font-size:1rem; color: var(--accent); }
+    .kv { display:grid; grid-template-columns: 1fr auto; gap:8px 12px; }
+    .tag { display:inline-flex; align-items:center; gap:6px; font-size:.85rem; background:#111827; border:1px solid #1f2937; border-radius:999px; padding:2px 8px; }
+    .tag.ok{ color:var(--ok);} .tag.warn{ color:var(--warn);} .tag.err{ color:var(--err);} 
+    .help { color: var(--muted); font-size:.9rem; }
+    .small { font-size:.85rem; color: var(--muted); }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>三角関数 右三角形ツール</h1>
-    <p class="lead">右三角形を前提に、<strong>斜辺・底辺・高さ</strong>から角度を求める／<strong>角度＋1辺</strong>から他の長さや <span class="mono">sin, cos, tan</span> を計算します。</p>
+    <p class="lead">右三角形を前提に、<strong>二辺→角度</strong> と <strong>角度＋1辺→sin, cos, tan と各辺</strong> を一枚で計算。左下が基準角 θ、右下が直角です。</p>
 
-    <div class="card">
-      <div class="flex" style="justify-content: space-between;">
+    <!-- 共通設定 -->
+    <section class="card">
+      <div style="display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap:10px;">
         <h2>共通設定</h2>
-        <div class="flex">
+        <div style="display:flex; gap:10px; align-items:center;">
           <label for="degRad">角度単位</label>
-          <select id="degRad">
-            <option value="deg" selected>度（°）</option>
-            <option value="rad">ラジアン</option>
-          </select>
+          <select id="degRad"><option value="deg" selected>度（°）</option><option value="rad">ラジアン</option></select>
           <label for="digits">表示桁数</label>
-          <select id="digits">
-            <option value="2">2</option>
-            <option value="3" selected>3</option>
-            <option value="4">4</option>
-            <option value="6">6</option>
-          </select>
+          <select id="digits"><option>2</option><option selected>3</option><option>4</option><option>6</option></select>
         </div>
       </div>
-      <p class="help">右三角形：<em>底辺</em>は基準角の隣、<em>高さ</em>は基準角の向かい、<em>斜辺</em>は直角の向かいです。基準角は「底辺と斜辺の間の角」。</p>
-    </div>
-
-    <!-- 図カード: 入力に応じて更新 -->
-    <section class="card" id="diagramCard">
-      <h2>図（入力に応じて更新）</h2>
-      <svg id="triSvg" viewBox="0 0 360 240" width="100%" height="240" role="img" aria-label="右三角形の図"></svg>
-      <p class="help small">左下が基準角 θ、右下が直角。a=底辺、b=高さ、c=斜辺。</p>
+      <p class="small">基準角 θ は <strong>底辺 a</strong> と <strong>斜辺 c</strong> の間の角。a は θ の隣接、b は向かい。</p>
     </section>
 
-    <div class="grid" style="margin-top: 16px;">
-      <!-- Sides -> Angle -->
+    <!-- 図（常時プレビュー） -->
+    <section class="card">
+      <h2>図（入力に応じて自動更新）</h2>
+      <svg id="triSvg" viewBox="0 0 360 240" width="100%" height="240" role="img" aria-label="右三角形の図"></svg>
+      <p class="help small">a=底辺, b=高さ, c=斜辺。左下が θ、右下が直角。</p>
+    </section>
+
+    <div class="grid">
+      <!-- 二辺 -> 角度 -->
       <section class="card">
-        <h2>斜辺・底辺・高さ → 角度</h2>
+        <h2>二辺（a,b,c のうち 2つ） → 角度と三角比</h2>
         <div class="row">
           <div class="field">
             <label for="c">斜辺 c</label>
             <input type="number" id="c" min="0" step="any" placeholder="例: 10" />
           </div>
           <div class="field">
-            <label for="a">底辺 a（基準角に隣接）</label>
+            <label for="a">底辺 a（θ に隣接）</label>
             <input type="number" id="a" min="0" step="any" placeholder="例: 8" />
           </div>
         </div>
         <div class="row">
           <div class="field">
-            <label for="b">高さ b（基準角の向かい）</label>
+            <label for="b">高さ b（θ の向かい）</label>
             <input type="number" id="b" min="0" step="any" placeholder="例: 6" />
           </div>
-          <div class="field">
-            <label for="tol">直角三角形チェック閾値（%）</label>
-            <input type="number" id="tol" min="0" step="any" value="0.5" />
-          </div>
+          <div class="field"></div>
         </div>
-        <div class="actions" style="margin-top: 10px;">
-          <button id="btnAngle">角度を計算</button>
-          <button class="secondary" id="btnClear1">クリア</button>
-        </div>
-        <div class="result" id="res1" style="margin-top: 12px; display:none;"></div>
+        <p class="help small">a, b, c のうち <strong>2つ</strong>だけ入力してください（直角三角形として不足の 1 辺を補完）。</p>
+        <div class="actions"><button id="btnAngle">角度を計算</button><button class="secondary" id="btnClear1">クリア</button></div>
+        <div class="result" id="res1"></div>
       </section>
 
-      <!-- Angle + one side -> everything -->
+      <!-- 角度＋1辺 -> sin,cos,tan と各辺 -->
       <section class="card">
         <h2>角度＋1辺 → sin, cos, tan と各辺</h2>
         <div class="row">
@@ -146,221 +108,166 @@
           </div>
           <div class="field">
             <label for="sideType">与える辺</label>
-            <select id="sideType">
-              <option value="c">斜辺 c</option>
-              <option value="a" selected>底辺 a</option>
-              <option value="b">高さ b</option>
-            </select>
+            <select id="sideType"><option value="c">斜辺 c</option><option value="a" selected>底辺 a</option><option value="b">高さ b</option></select>
           </div>
         </div>
-        <div class="actions" style="margin-top: 10px;">
-          <button id="btnSides">sin, cos, tan を計算</button>
-          <button class="secondary" id="btnClear2">クリア</button>
-        </div>
-        <div class="result" id="res2" style="margin-top: 12px; display:none;"></div>
+        <div class="actions"><button id="btnSides">sin, cos, tan を計算</button><button class="secondary" id="btnClear2">クリア</button></div>
+        <div class="result" id="res2"></div>
       </section>
     </div>
 
-    <div class="footer">
-      <div class="small">注意：このツールは右三角形（直角三角形）を仮定しています。単位は任意ですが、同一で入力してください。角度は 0° &lt; θ &lt; 90° を想定しています。</div>
-    </div>
+    <p class="small" style="margin-top:12px;">※ 単位は任意ですが同一にしてください。θ は (0°, 90°) を想定。</p>
   </div>
 
   <script>
     const $ = (s) => document.querySelector(s);
-    const fmt = (x, d) => {
-      if (!isFinite(x)) return '—';
-      const pow = Math.pow(10, d);
-      const rounded = Math.round((x + Number.EPSILON) * pow) / pow;
-      return new Intl.NumberFormat('ja-JP', { maximumFractionDigits: d }).format(rounded);
-    };
+    const fmt = (x, d) => (isFinite(x) ? new Intl.NumberFormat('ja-JP', { maximumFractionDigits: d }).format(Math.round((x + Number.EPSILON) * Math.pow(10,d)) / Math.pow(10,d)) : '—');
+    const toRad = (v, mode) => (mode === 'deg' ? v * Math.PI / 180 : v);
+    const toDeg = (v, mode) => (mode === 'deg' ? v * 180 / Math.PI : v);
 
-    const toRad = (v, mode) => mode === 'deg' ? v * Math.PI / 180 : v;
-    const toDeg = (v, mode) => mode === 'deg' ? v * 180 / Math.PI : v;
+    // ---- 計算ロジック ----
+    function computeFromTwoSides() {
+      const aIn = parseFloat($('#a').value);
+      const bIn = parseFloat($('#b').value);
+      const cIn = parseFloat($('#c').value);
+      const has = [aIn, bIn, cIn].map(x => x>0);
+      const count = has.filter(Boolean).length;
+      if (count !== 2) return null;
+      let a = has[1] ? aIn : NaN;
+      let b = has[0] ? bIn : NaN; // will fix below; re-evaluate carefully
+      // Actually map correctly:
+      a = (aIn>0) ? aIn : NaN; b = (bIn>0) ? bIn : NaN; let c = (cIn>0) ? cIn : NaN;
 
-    function rightCheck(a, b, c, tolPercent) {
-      if (!(a>0 && b>0 && c>0)) return { ok: false, msg: '長さが未入力です。' };
-      const lhs = a*a + b*b;
-      const rhs = c*c;
-      const rel = Math.abs(lhs - rhs) / Math.max(lhs, rhs) * 100;
-      const ok = rel <= tolPercent;
-      return { ok, rel };
-    }
-
-    function showRes1(angleRad, a, b, c, check, digits, mode) {
-      const box = $('#res1');
-      const angleOut = toDeg(angleRad, 'deg'); // 表示は度固定
-      const sin = b / (c || Math.hypot(a,b));
-      const cos = a / (c || Math.hypot(a,b));
-      const tan = b / a;
-      const tag = check.ok ? `<span class="tag ok">直角条件 OK（誤差 ${fmt(check.rel, 3)}%）</span>` :
-                  (isFinite(check.rel) ? `<span class="tag warn">直角条件に不一致（誤差 ${fmt(check.rel, 3)}%）</span>` : `<span class="tag err">入力不足</span>`);
-      box.innerHTML = `
-        <h3>結果</h3>
-        <div class="flex" style="margin-bottom:8px;">${tag}</div>
-        <div class="kv">
-          <div class="k">基準角 θ（度）</div><div class="v">${fmt(angleOut, digits)} °</div>
-          <div class="k">sin θ</div><div class="v">${fmt(sin, digits)}</div>
-          <div class="k">cos θ</div><div class="v">${fmt(cos, digits)}</div>
-          <div class="k">tan θ</div><div class="v">${fmt(tan, digits)}</div>
-        </div>
-        <p class="help" style="margin-top:10px;">θ は <strong>底辺 a</strong> と <strong>斜辺 c</strong> の間の角です（b が向かい）。</p>
-      `;
-      box.style.display = 'block';
-    }
-
-    function onAngle() {
-      const a = parseFloat($('#a').value);
-      const b = parseFloat($('#b').value);
-      const c = parseFloat($('#c').value);
-      const tol = parseFloat($('#tol').value || '0.5');
-      const digits = parseInt($('#digits').value, 10);
-      if (!(a>0) && !(b>0)) {
-        $('#res1').style.display='block';
-        $('#res1').innerHTML = `<span class="tag err">底辺 a または 高さ b を入力してください。</span>`;
-        return;
+      if (isFinite(a) && isFinite(b)) {
+        c = Math.hypot(a, b);
+      } else if (isFinite(a) && isFinite(c)) {
+        if (!(c > a)) return { error: '斜辺 c は底辺 a より長い必要があります。' };
+        b = Math.sqrt(Math.max(c*c - a*a, 0));
+      } else if (isFinite(b) && isFinite(c)) {
+        if (!(c > b)) return { error: '斜辺 c は高さ b より長い必要があります。' };
+        a = Math.sqrt(Math.max(c*c - b*b, 0));
       }
-      // 角度（底辺と斜辺の間の角）: θ = atan2(b, a)
-      const angleRad = Math.atan2(b||0, a||0);
-      const check = rightCheck(a||0, b||0, c||Math.hypot(a||0,b||0), isFinite(tol)?tol:0.5);
-      showRes1(angleRad, a||0, b||0, c||Math.hypot(a||0,b||0), check, digits);
+      const rad = Math.atan2(b, a);
+      const s = b / c, co = a / c, t = b / a;
+      return { a, b, c, rad, s, co, t };
     }
 
-    function onSides() {
-      const mode = $('#degRad').value; // 入力角の単位
-      const digits = parseInt($('#digits').value, 10);
+    function computeFromAngleAndSide() {
+      const mode = $('#degRad').value;
       const th = parseFloat($('#theta').value);
       const sideType = $('#sideType').value;
       const sideVal = parseFloat($('#sideVal').value);
-
-      const out = $('#res2');
-      if (!(th>0) || !(sideVal>0)) {
-        out.style.display='block';
-        out.innerHTML = `<span class="tag err">角度と 1 辺の長さを入力してください。</span>`;
-        return;
-      }
+      if (!(th>0) || !(sideVal>0)) return null;
       const rad = toRad(th, mode);
-      if (!(rad>0) || !(rad < Math.PI/2)) {
-        out.style.display='block';
-        out.innerHTML = `<span class="tag warn">θ は (0, 90°) の範囲を想定しています。</span>`;
-      }
-
+      if (!(rad>0) || !(rad < Math.PI/2)) return { error: 'θ は (0, 90°) を想定しています。' };
       const s = Math.sin(rad), c = Math.cos(rad), t = Math.tan(rad);
-      let a,b,cside; // a=底辺, b=高さ, cside=斜辺
-      if (sideType === 'c') {
-        cside = sideVal; a = cside * c; b = cside * s;
-      } else if (sideType === 'a') {
-        a = sideVal; cside = a / (c||Number.NaN); b = a * (t||Number.NaN);
-      } else {
-        b = sideVal; cside = b / (s||Number.NaN); a = b / (t||Number.NaN);
-      }
+      let a,b,cc;
+      if (sideType === 'c') { cc=sideVal; a = cc * c; b = cc * s; }
+      else if (sideType === 'a') { a=sideVal; b = a * t; cc = a / c; }
+      else { b=sideVal; a = b / t; cc = b / s; }
+      return { a, b, c: cc, rad, s, co:c, t };
+    }
 
-      const valid = [a,b,cside].every(x => isFinite(x) && x>0);
-      const tag = valid ? `<span class="tag ok">計算成功</span>` : `<span class="tag err">計算できません（角度や辺の組み合わせを確認）</span>`;
-
-      out.innerHTML = `
+    // ---- 出力描画 ----
+    function showResTwoSides(data) {
+      const box = $('#res1');
+      const digits = parseInt($('#digits').value, 10);
+      if (!data) { box.style.display='block'; box.innerHTML = `<span class="tag warn">a, b, c のうち <strong>2つ</strong>だけ入力してください。</span>`; return; }
+      if (data.error) { box.style.display='block'; box.innerHTML = `<span class="tag err">${data.error}</span>`; return; }
+      const deg = toDeg(data.rad, 'deg');
+      box.innerHTML = `
         <h3>結果</h3>
-        <div class="flex" style="margin-bottom:8px;">${tag} <span class="small">入力角: ${fmt(toDeg(rad,'deg'), digits)} ° / ${fmt(rad, digits)} rad</span></div>
-        <div class="kv">
+        <div class="tag ok">二辺から計算</div>
+        <div class="kv" style="margin-top:8px;">
+          <div class="k">基準角 θ（度）</div><div class="v">${fmt(deg, digits)} °</div>
+          <div class="k">sin θ</div><div class="v">${fmt(data.s, digits)}</div>
+          <div class="k">cos θ</div><div class="v">${fmt(data.co, digits)}</div>
+          <div class="k">tan θ</div><div class="v">${fmt(data.t, digits)}</div>
+          <div class="k">底辺 a</div><div class="v">${fmt(data.a, digits)}</div>
+          <div class="k">高さ b</div><div class="v">${fmt(data.b, digits)}</div>
+          <div class="k">斜辺 c</div><div class="v">${fmt(data.c, digits)}</div>
+        </div>`;
+      box.style.display='block';
+    }
+
+    function showResAngleSide(calc) {
+      const box = $('#res2');
+      const digits = parseInt($('#digits').value, 10);
+      if (!calc) { box.style.display='block'; box.innerHTML = `<span class="tag err">角度と 1 辺の長さを入力してください。</span>`; return; }
+      if (calc.error) { box.style.display='block'; box.innerHTML = `<span class="tag warn">${calc.error}</span>`; return; }
+      const s = Math.sin(calc.rad), c = Math.cos(calc.rad), t = Math.tan(calc.rad);
+      box.innerHTML = `
+        <h3>結果</h3>
+        <div class="tag ok">角度＋1辺から計算</div>
+        <div class="kv" style="margin-top:8px;">
           <div class="k">sin θ</div><div class="v">${fmt(s, digits)}</div>
           <div class="k">cos θ</div><div class="v">${fmt(c, digits)}</div>
           <div class="k">tan θ</div><div class="v">${fmt(t, digits)}</div>
-          <div class="k">底辺 a</div><div class="v">${fmt(a, digits)}</div>
-          <div class="k">高さ b</div><div class="v">${fmt(b, digits)}</div>
-          <div class="k">斜辺 c</div><div class="v">${fmt(cside, digits)}</div>
+          <div class="k">底辺 a</div><div class="v">${fmt(calc.a, digits)}</div>
+          <div class="k">高さ b</div><div class="v">${fmt(calc.b, digits)}</div>
+          <div class="k">斜辺 c</div><div class="v">${fmt(calc.c, digits)}</div>
         </div>
-        <p class="help" style="margin-top:10px;">基準角 θ は <strong>底辺 a</strong> と <strong>斜辺 c</strong> の間の角として計算しています。</p>
-      `;
-      out.style.display = 'block';
+        <p class="small" style="margin-top:6px;">入力角: ${fmt(toDeg(calc.rad,'deg'),digits)} ° / ${fmt(calc.rad,digits)} rad</p>`;
+      box.style.display='block';
     }
 
-    function clear1() {
-      ['a','b','c'].forEach(id => { $("#"+id).value=''; });
-      $('#res1').style.display='none';
-    }
-    function clear2() {
-      ['theta','sideVal'].forEach(id => { $("#"+id).value=''; });
-      $('#res2').style.display='none';
-    }
-
-    // --- 図の描画ロジック ---
-function tryComputeFromAngleSide(){
-  const th = parseFloat($('#theta').value);
-  const val = parseFloat($('#sideVal').value);
-  const sideType = $('#sideType').value;
-  const mode = $('#degRad').value;
-  if (!(th>0) || !(val>0)) return null;
-  const rad = toRad(th, mode);
-  if (!(rad>0) || !(rad < Math.PI/2)) return null;
-  const s = Math.sin(rad), c = Math.cos(rad), t = Math.tan(rad);
-  let a,b,cside;
-  if (sideType === 'c') { cside = val; a = cside * c; b = cside * s; }
-  else if (sideType === 'a') { a = val; b = a * t; cside = a / c; }
-  else { b = val; a = b / t; cside = b / s; }
-  return { a, b, c: cside, rad };
-}
-function tryComputeFromSides(){
-  const a = parseFloat($('#a').value);
-  const b = parseFloat($('#b').value);
-  const c = parseFloat($('#c').value);
-  let aa, bb, cc;
-  if (a>0 && b>0) { aa=a; bb=b; cc=Math.hypot(a,b); }
-  else if (a>0 && c>0 && c>a) { aa=a; cc=c; bb=Math.sqrt(Math.max(c*c - a*a, 0)); }
-  else if (b>0 && c>0 && c>b) { bb=b; cc=c; aa=Math.sqrt(Math.max(c*c - b*b, 0)); }
-  else return null;
-  const rad = Math.atan2(bb, aa);
-  return { a: aa, b: bb, c: cc, rad };
-}
-function drawTriangle(a,b,c,rad){
-  const svg = document.getElementById('triSvg');
-  const W=360, H=240, pad=24;
-  svg.innerHTML = '';
-  if (!(a>0) || !(b>0)) {
-    svg.innerHTML = `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
+    // ---- 図描画 ----
+    function drawTriangle(a, b, c, rad) {
+      const svg = document.getElementById('triSvg');
+      const W=360, H=240, pad=24;
+      svg.innerHTML = '';
+      if (!(a>0) || !(b>0)) {
+        svg.innerHTML = `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
 <text x="16" y="${H-16}" fill="#9ca3af">入力すると図が更新されます</text>`;
-    return;
-  }
-  const s = Math.min((W-2*pad)/a, (H-2*pad)/b);
-  const x0=pad, y0=H-pad;
-  const x1=x0+a*s, y1=y0;
-  const x2=x1, y2=y1 - b*s;
-  const rMark = Math.min(18, 0.18*Math.min(a*s,b*s));
-  const arcR = Math.min(30, Math.min(a*s,b*s)*0.35);
-  const useRad = (rad && isFinite(rad)) ? rad : Math.atan2(b,a);
-  const midAng = useRad/2;
-  const digits = parseInt($('#digits').value, 10);
-  const degLabel = fmt(toDeg(useRad,'deg'), digits);
-  const hypMidX = x0 + (x2-x0)/2, hypMidY = y0 + (y2-y0)/2;
-  svg.innerHTML = `
-    <rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
-    <path d="M ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} Z" fill="rgba(59,130,246,0.06)" stroke="#3b82f6" stroke-width="2"/>
-    <path d="M ${x1-rMark} ${y1} L ${x1-rMark} ${y1-rMark} L ${x1} ${y1-rMark}" stroke="#e5e7eb" stroke-width="2" fill="none"/>
-    <path d="M ${x0+arcR} ${y0} A ${arcR} ${arcR} 0 0 1 ${x0 + arcR*Math.cos(useRad)} ${y0 - arcR*Math.sin(useRad)}" stroke="#e5e7eb" stroke-width="2" fill="none"/>
-    <text x="${x0 + (a*s)/2}" y="${y0 + 16}" text-anchor="middle" fill="#e5e7eb">a = ${fmt(a, digits)}</text>
-    <text x="${x1 + 12}" y="${y1 - (b*s)/2}" fill="#e5e7eb">b = ${fmt(b, digits)}</text>
-    <text x="${hypMidX}" y="${hypMidY - 8}" text-anchor="middle" fill="#e5e7eb">c = ${fmt(c, digits)}</text>
-    <text x="${x0 + (arcR+12)*Math.cos(midAng)}" y="${y0 - (arcR+12)*Math.sin(midAng)}" fill="#e5e7eb">θ ≈ ${degLabel}°</text>
-  `;
-}
-function previewDiagram(){
-  const fromAng = tryComputeFromAngleSide();
-  if (fromAng) { drawTriangle(fromAng.a, fromAng.b, fromAng.c, fromAng.rad); return; }
-  const fromSides = tryComputeFromSides();
-  if (fromSides) { drawTriangle(fromSides.a, fromSides.b, fromSides.c, fromSides.rad); return; }
-  drawTriangle(NaN, NaN, NaN, NaN);
-}
+        return;
+      }
+      const s = Math.min((W-2*pad)/a, (H-2*pad)/b);
+      const x0=pad, y0=H-pad;
+      const x1=x0+a*s, y1=y0;
+      const x2=x1, y2=y1 - b*s;
+      const useRad = (rad && isFinite(rad)) ? rad : Math.atan2(b,a);
+      const rMark = Math.min(18, 0.18*Math.min(a*s,b*s));
+      const arcR = Math.min(30, Math.min(a*s,b*s)*0.35);
+      const midAng = useRad/2;
+      const digits = parseInt($('#digits').value, 10);
+      const degLabel = fmt(toDeg(useRad,'deg'), digits);
+      const hypMidX = x0 + (x2-x0)/2, hypMidY = y0 + (y2-y0)/2;
+      svg.innerHTML = `
+        <rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
+        <path d="M ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} Z" fill="rgba(59,130,246,0.06)" stroke="#3b82f6" stroke-width="2"/>
+        <path d="M ${x1-rMark} ${y1} L ${x1-rMark} ${y1-rMark} L ${x1} ${y1-rMark}" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+        <path d="M ${x0+arcR} ${y0} A ${arcR} ${arcR} 0 0 1 ${x0 + arcR*Math.cos(useRad)} ${y0 - arcR*Math.sin(useRad)}" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+        <text x="${x0 + (a*s)/2}" y="${y0 + 16}" text-anchor="middle" fill="#e5e7eb">a = ${fmt(a, digits)}</text>
+        <text x="${x1 + 12}" y="${y1 - (b*s)/2}" fill="#e5e7eb">b = ${fmt(b, digits)}</text>
+        <text x="${hypMidX}" y="${hypMidY - 8}" text-anchor="middle" fill="#e5e7eb">c = ${fmt(c, digits)}</text>
+        <text x="${x0 + (arcR+12)*Math.cos(midAng)}" y="${y0 - (arcR+12)*Math.sin(midAng)}" fill="#e5e7eb">θ ≈ ${degLabel}°</text>
+      `;
+    }
 
-function handleAngleClick(){ onAngle(); previewDiagram(); }
-function handleSidesClick(){ onSides(); previewDiagram(); }
-$('#btnAngle').addEventListener('click', handleAngleClick);
-$('#btnSides').addEventListener('click', handleSidesClick);
-$('#btnClear1').addEventListener('click', () => { clear1(); previewDiagram(); });
-$('#btnClear2').addEventListener('click', () => { clear2(); previewDiagram(); });
+    function previewDiagram(){
+      const fromAng = computeFromAngleAndSide();
+      if (fromAng && !fromAng.error) { drawTriangle(fromAng.a, fromAng.b, fromAng.c, fromAng.rad); return; }
+      const fromSides = computeFromTwoSides();
+      if (fromSides && !fromSides.error) { drawTriangle(fromSides.a, fromSides.b, fromSides.c, fromSides.rad); return; }
+      drawTriangle(NaN, NaN, NaN, NaN);
+    }
 
-['a','b','c','theta','sideVal'].forEach(id => { const el=document.getElementById(id); if (el) el.addEventListener('input', previewDiagram); });
-['degRad','sideType','digits'].forEach(id => { const el=document.getElementById(id); if (el) el.addEventListener('change', previewDiagram); });
+    // ---- ハンドラ ----
+    function onAngle(){ const r = computeFromTwoSides(); showResTwoSides(r); previewDiagram(); }
+    function onSides(){ const r = computeFromAngleAndSide(); showResAngleSide(r); previewDiagram(); }
+    function clear1(){ ['a','b','c'].forEach(id => $('#'+id).value=''); $('#res1').style.display='none'; previewDiagram(); }
+    function clear2(){ ['theta','sideVal'].forEach(id => $('#'+id).value=''); $('#res2').style.display='none'; previewDiagram(); }
 
-previewDiagram();
+    // ---- イベント登録 ----
+    $('#btnAngle').addEventListener('click', onAngle);
+    $('#btnSides').addEventListener('click', onSides);
+    $('#btnClear1').addEventListener('click', clear1);
+    $('#btnClear2').addEventListener('click', clear2);
+    ['a','b','c','theta','sideVal'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', previewDiagram); });
+    ['degRad','sideType','digits'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', previewDiagram); });
+
+    // 初期描画
+    previewDiagram();
   </script>
 </body>
 </html>
